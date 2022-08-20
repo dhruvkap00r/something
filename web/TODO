@@ -1,0 +1,27 @@
+HTTP Requests:
+  First Line:
+    -> Methods:
+      GET, POST, PUT, OPTIONS, HEAD
+    
+    -> URL (in same line):
+      It can be path with context to the domain like,
+        GET /background.png HTTP/1.1
+      It can also be in absolute form (mostly used in GET method,like,
+        GET https://google.com/background.png
+      Authority form of url is contain Port number (used with CONNECT in han      dshking)
+
+    -> HTTP version
+After this we have to specify Headers.
+  1. when sending or receiving a file between client and server Correct MIME  Type should be specify.
+  
+HTTP Response:
+  Status Line:
+    -> Protocol Version like, HTTP/1.1
+    -> Status codes
+    -> Status Text,
+      => HTTP/1.1 404 Not Found
+  
+  Headers:
+    General headers = "apply to whole message"
+    Response headers = "Give info about server"
+    Representation headers = "Give info about Body Message"
