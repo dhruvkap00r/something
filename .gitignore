@@ -1,2 +1,7 @@
-.qtc-clangd/*
-web/.qtc-clangd/*
+.qtc_clangd/*
+web/.qtc_clangd/*
+server
+*.gch
+client
+a.out
+*.cflags
