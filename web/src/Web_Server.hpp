@@ -20,6 +20,7 @@ protected:
 private:
     void Send(char buffer[], int New_Sockfd);
     void Receive(char buffer[], int New_Sockfd);
+    void Read_msg(int New_Sockfd);
 
 };
 class Security{

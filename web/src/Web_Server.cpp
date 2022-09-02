@@ -8,6 +8,9 @@
 #include <unistd.h>
 #include <thread>
 #include <sys/types.h>
+#include <map>
+
+
 
 namespace Web{
 void Base::check(int func, std::string name){
@@ -31,13 +34,12 @@ int Base::Configuration(){
     return Sockfd;
 };
 
-void Base::Send(char Send_buffer[], int New_Sockfd){
-    write(New_Sockfd, Send_buffer, strlen(Send_buffer));
-};
 
 void Base::Receive(char Recv_buffer[], int New_Sockfd){
-    read(New_Sockfd, Recv_buffer, strlen(Recv_buffer));
+    read(New_Sockfd, Recv_buffer, 512);
 };
+
+
 void Base::Main(){
     int addrlen = sizeof(Serv_addr);
     int sock = Configuration();
@@ -45,13 +47,15 @@ void Base::Main(){
     check(listen(sock, 1), "Listening");
     int New_Sockfd = accept(sock, (struct sockaddr*)&Serv_addr, (socklen_t*)&addrlen);
     check(New_Sockfd, "Accept");
-    char Send_buffer[2] = "1";
-    Send(Send_buffer, New_Sockfd);
+
     close(sock);
     close(New_Sockfd);
 };
+
+
 };
 int main(){
+
     Web::Base w;
     w.Main();
 };
