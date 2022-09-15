@@ -8,7 +8,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
-#include "File.h"
+#include "includes/File.h"
 
 
 void check(int runing_status, std::string program_name){
@@ -29,32 +29,27 @@ struct Status{
     std::string Name(){ return status[Code];};
 } ;
 
-void file_finder(int fd){
+void file_finder(int fd, char *_file_name){
     struct Status status;
     if (fd < 0){
       status.Code = 404;
       std::cout<<status.Name()<<'\n';
 } else{
       status.Code = 200;
-      std::cout<<status.Name()<<'\n';
+      std::cout<<status.Name()<<'\n'<<std::flush;
+      File file;
+      file.file_read(fd, _file_name);
 
   };
 }
 
-int temp(int fd){
-
-    File file;
-    Status status;
-    file_finder(fd);
-    std::cout<<status.Code<<std::endl;
-    if (status.Code = 200){
-        file.file_read(fd, argv[1]);
-    };
-}
+void temp(int fd, char *_file_name){
+    file_finder(fd, _file_name);
+};
 int main(int argc, char** argv){
     int fd = open(argv[1], O_RDONLY);
     check(fd, "fd");
-    temp(fd);
+    temp(fd, argv[1]);
     std::cout<<argv[1]<<std::endl;
     return 0;
 };
