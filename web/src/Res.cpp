@@ -20,32 +20,36 @@ void check(int runing_status, std::string program_name){
 
 
 struct Status{
-    std::map<volatile int, std::string> status = {
+    std::map<int, std::string> status = {
     {200, "OK"},
     {404, "Not Found"}
   };
-    volatile int Code = 100;
 
-    std::string Name(){ return status[Code];};
-} ;
+    int stat;
+   int Code(int fd){
+        if(fd > 0){
+            stat = 200;
+        }
+        else{
+            stat = 404;
+        };
+        return stat;
+    };           
+    int code = Code(-1);
 
-void file_finder(int fd, char *_file_name){
-    struct Status status;
-    if (fd < 0){
-      status.Code = 404;
-      std::cout<<status.Name()<<'\n';
-} else{
-      status.Code = 200;
-      std::cout<<status.Name()<<'\n'<<std::flush;
-      File file;
-      file.file_read(fd, _file_name);
+    std::string Name(){ return status[code];};
+};
 
-  };
-}
 
 void temp(int fd, char *_file_name){
-    file_finder(fd, _file_name);
+    Status status;
+    File f;
+    if(status.Code(fd) == 200){
+        f.file_read(fd, _file_name);        
+    };
 };
+
+
 int main(int argc, char** argv){
     int fd = open(argv[1], O_RDONLY);
     check(fd, "fd");
