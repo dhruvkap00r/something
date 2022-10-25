@@ -4,6 +4,12 @@ src/Res.cpp
 
 src/Req.cpp
 src/Req.cpp
-src/Res.h
+src/File.cpp
+src/Header.cpp
+src/array.cpp
 
-src/Req.h
+src/includes/array.h
+src/includes/File.h
+src/includes/Res.h
+src/includes/Header.h
+src/includes/Req.h

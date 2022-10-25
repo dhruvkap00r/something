@@ -1,4 +1,0 @@
-PROBLEMS:
-	1.can't figure out to send html files in an decent or very fast way.
-	2.not able to manage th project.
-	

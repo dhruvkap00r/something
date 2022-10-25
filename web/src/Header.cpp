@@ -1,78 +1,36 @@
-#include "includes/Header.h"
+#include <string.h>
 #include <iostream>
-#include <vector>
+#include <map>
+#include "array.cpp"
 
-/*
-enum headers{
-    User-Agent,
-    Host,
-    Content-Type,
-    Content-Length,
-    Accept-Language,
-    Accept-Encoding,
-    Connection
+enum class State{
+   METHOD,
+   RESOURCE,
+   PROTOCOL,
+   H_NAME,
 };
-*/
 
-/*
- *how to set position ?
-   we have to go through evry single thing like
-   method
-   file it requested
-   protocol type 
-   headers
-
-   how to extract headers and save them differently ?
-      first: extract name of the header and save it somewhere;
-      second: set name as variable and set its value from i to new-line;
-   how it will read the text ?
-      first it will identify the position where to cut off
-      then it will go from the offset to the last line like i;
- * */
-//TODO: make a fast method to do extraction thing rather than variables;
-
-
-Header::Header(){};
-
-void Header::extractor(vector<char> buffer, headers header, m_method method){
-   bool is_newline = [&](char* obj){
-      if(obj == '\r\n'){return true}
-      else {return false};
-   };
-   bool is_space = [&](char* obj){
-      if(obj == " "){return true}
-      else {return false};
-   };
-   int offset = 0;
-   int i;
-   char current_byte = [&](){
-      for(i = 1; i<buffer.size()+1; ++i){
-         return buffer[i];
-      };
-   };
-   
-   char get_chars = [&](){
-      for(int j; j!=i; ++j){
-         buffer[j]
+std::map<std::string, std::string> head;
+void extractor(char * buffer){
+   State state = State::METHOD;
+   for(int i = 0;i<strlen(buffer);++i){
+      switch(state){
+         case State::METHOD:
+            head["method"] = element(buffer, i);
+            std::cout<<"method: "<<head["method"]<<'\n';
+            state = State::RESOURCE;
+         case State::RESOURCE:
+            head["resource"] = element(buffer, i);
+            std::cout<<"resource: "<<head["resource"]<<'\n';
+            state = State::PROTOCOL;
+         case State::PROTOCOL:
+            head["protocol"] = element(buffer, i);
+            state = State::H_NAME;
+         case State::H_NAME:
+            int f = 2*i+1;
+            head[element(buffer,i)] = element(buffer, f);
+            state = State::H_NAME;
       };
    };
 
-   header = h_method;
-   switch(header){
-      case h_method:
-         buffer
-         
-
-   };
-
 };
-
-
-
-Header::~Header(){};
-int main(){
-   char buffer[] = "stay aside";
-   Header header;
-   header.extractor(buffer);
-};
-

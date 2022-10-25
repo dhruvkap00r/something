@@ -8,13 +8,15 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
+#include <string>
 #include "includes/File.h"
 
 File::File(){};
 
-int File::file_size_finder(char *_file_name){
+int File::file_size_finder(std::string _file_name){
     FILE *fp;
-    fp = fopen(_file_name, "r");
+    std::string f;
+    fp = fopen(_file_name.c_str(), "r");
     if (fp == nullptr){
         std::cout<<"fopen error!"<<'\n';
     };
@@ -23,15 +25,20 @@ int File::file_size_finder(char *_file_name){
     return size;
 };
 
-void File::file_read(int fd, char *_file_name){
-    int file_size = file_size_finder(_file_name);
-    char *ptr = (char *) mmap(nullptr, file_size, PROT_READ, MAP_SHARED, fd, 0);
+void File::file_read(int fd, std::string _file_name, std::string container){
+   int file_size = file_size_finder(_file_name);
+   char *ptr = (char *) mmap(nullptr, file_size, PROT_READ, MAP_SHARED, fd, 0);
 
-    for(int i=0;i<file_size+1;i++){
-        std::cout<<ptr[i];
-    };
-    int mptr = munmap(ptr, file_size);
+#if 0
+   for(int i=0;i<file_size+1;i++){
+      std::cout<<ptr[i];
+   };
+#endif
+   container = ptr;
+   std::cout<<container;
+   int mptr = munmap(ptr, file_size);
 };
 
 
 File::~File(){};
+
